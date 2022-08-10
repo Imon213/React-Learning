@@ -8,7 +8,7 @@ export default function ABuyer({value}) {
   return (
   
   <div>
- 
+ <Nav />
    <Table striped bordered hover size="sm">
         
       <thead>

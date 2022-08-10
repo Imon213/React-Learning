@@ -28,7 +28,7 @@ export default function AddDeliveryman(){
   
 
   const onSubmitted= (e) =>{
-    
+    e.preventDefault();
     var obj = {name:name, email: email, phone: phone, nid: nid, address: address, password: password};
     axios.post("http://127.0.0.1:8000/api/email",obj)
     .then(resp=>{

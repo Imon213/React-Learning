@@ -6,25 +6,77 @@ import email from "./Image/email.png";
 import phone from "./Image/phone.png";
 import nid from "./Image/nid.png";
 import address from "./Image/address.gif";
+import axiosConfig from './axiosConfig';
 import Nav from "./Nav";
-export default function AProfile(){
+import { Link, useNavigate } from "react-router-dom";
+import { useState, useEffect } from 'react';
+import axios from "axios";
 
+export default function AProfile(){
+  const [user, setUser] = useState([]);
+  const [Aname, setName] = useState([]);
+  const [Aemail, setEmail] = useState([]);
+  const [Aphone, setPhone] = useState([]);
+  const [Anid, setNid] = useState([]);
+  const [Password, setPassword] = useState([]);
+  const [Aaddress, setAddress] = useState([]);
+  const [id, setID] = useState(0);
+  const navigate = useNavigate('');
+  useEffect(()=>{
+
+    if (localStorage.getItem('user')){
+     let obj = JSON.parse(localStorage.getItem('user'));
+     console.log(obj.userId);
+     axiosConfig.get(`user/${obj.userId}`)
+     .then(resp=>{
+       setUser(resp.data);
+       setName(resp.data.name);
+       setEmail(resp.data.email);
+       setPhone(resp.data.phone)
+       setNid(resp.data.nid);
+       setAddress(resp.data.address);
+       setPassword(resp.data.address);
+       setID(resp.data.id);
+      }).catch(err=>{
+       console.log(err);
+      }
+     );
+
+ }else{
+     alert("You are not logged in. Login or registration first");
+     navigate('/login');
+ }
+
+ },[]);
+
+ const onSubmitted= (e) =>{
+  e.preventDefault();
+  var obj = { id:id,name:Aname, email: Aemail, phone: Aphone, nid: Anid, address: Aaddress, password: Password};
+  axios.post("http://127.0.0.1:8000/api/update",obj)
+  .then(resp=>{
+      var token = resp.data;
+      alert(token);
+     
+  }).catch(err=>{
+      console.log(err);
+  });
+}
     return(
     <>
  <Nav />
      <div className={Style.body}>
           <div className={Style.details}>
         <img className={Style.img}  src={profile}alt="" /><br/>
-        <span  className={Style.name}>Imon Faysal</span>
+        <span  className={Style.name}>{user.name}</span>
       
        <hr/>
-       <span className={Style.info}> <img className={Style.icon} src={email} />  emonf666@gmail.com</span>
+       <span className={Style.info}> <img className={Style.icon} src={email} /> {user.email}</span>
        <hr/>
-       <span  className={Style.info}><img className={Style.icon} src={phone} />  01959634446</span>
+       <span  className={Style.info}><img className={Style.icon} src={phone} />  {user.phone}</span>
        <hr />
-       <span  className={Style.info}><img className={Style.icon} src={nid} /> 987654567</span>
+       <span  className={Style.info}><img className={Style.icon} src={nid} /> {user.nid}</span>
        <hr />
-       <span  className={Style.info}><img className={Style.icon} src={address} />Hijulia, Shibput, Narsingdi</span>
+       <span  className={Style.info}><img className={Style.icon} src={address} />{user.address}</span>
       </div>
    
       <div className={Style.main}>
@@ -32,36 +84,35 @@ export default function AProfile(){
    
        <Form>
        <Form.Group className="mb-3" controlId="formBasicName">
-        <Form.Label>FULL NAME</Form.Label>
-        <Form.Control type="text" placeholder="Enter Name" />
-        
+       <Form.Control type="text" value={Aname} onChange={(e)=>setName(e.target.value)} placeholder="Enter Name" />
       </Form.Group>
+
       <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>EMAIL ADDRESS</Form.Label>
-        <Form.Control type="email" placeholder="Enter email" />
-        <Form.Text className="text-muted">
-          We'll never share your email with anyone else.
-        </Form.Text>
+        <Form.Control type="email" value={Aemail} onChange={(e)=>setEmail(e.target.value)} placeholder="Enter Name" />
+  
       </Form.Group>
 
       <Form.Group className="mb-3" controlId="formBasicPhone">
         <Form.Label>PHONE</Form.Label>
-        <Form.Control type="phone" placeholder="Enter phone" />
+        <Form.Control type="phone" value={Aphone} onChange={(e)=>setPhone(e.target.value)} placeholder="Enter Name" />
       </Form.Group>
 
       <Form.Group className="mb-3" controlId="formBasicNid">
         <Form.Label>NID</Form.Label>
-        <Form.Control type="nid" placeholder="Enter NID" />
+        <Form.Control type="nid" value={Anid} onChange={(e)=>setNid(e.target.value)} placeholder="Enter Name" />
       </Form.Group>
 
       <Form.Group className="mb-3" controlId="formBasicAddress">
         <Form.Label>ADDRESS</Form.Label>
-        <Form.Control type="address" placeholder="Enter Address" />
+        <Form.Control type="text" value={Aaddress} onChange={(e)=>setAddress(e.target.value)} placeholder="Enter Name" />
       </Form.Group>
-
-      <Button variant="primary" type="submit">
-        Submit
-      </Button>
+      <Form.Group className="mb-3" controlId="formBasicPassword">
+        <Form.Label>Password</Form.Label>
+        <Form.Control type="password" value={Password} onChange={(e)=>setPassword(e.target.value)} placeholder="Enter Password" />
+      </Form.Group>
+      <input type='hidden' value={id} onChange={(e)=>setID(e.target.value)} />
+      <Button variant="primary" onClick={onSubmitted} type="submit">EDIT</Button>
      </Form>
       </div>
      </div>

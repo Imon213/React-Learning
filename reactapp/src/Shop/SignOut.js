@@ -11,7 +11,7 @@ const SignOut = () => {
     let user = JSON.parse(localStorage.getItem('user'));
 
     var obj = {token: user.access_token};
-    axios.post("http://127.0.0.1:8000/api/logoutt",obj)
+    axios.post("http://127.0.0.1:8000/api/logout",obj)
     .then(resp=>{
         localStorage.clear()
         var data = resp.data;

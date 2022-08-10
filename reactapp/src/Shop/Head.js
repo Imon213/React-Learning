@@ -35,13 +35,22 @@ const Head = () => {
           {/* <Nav.Link href="/login">Login</Nav.Link> */}
           </Nav.Item>
           <Nav.Item>
-          <Nav.Link href="/signout">signout</Nav.Link>
+          <Nav.Link href="/recieve_order">received orders</Nav.Link>
+          </Nav.Item>
+          
+          <Nav.Item>
+           <Nav.Link href="/profile_seller">Profile</Nav.Link> 
           </Nav.Item>
           <Nav.Item>
-          {/* <Nav.Link href="/registration">Registration</Nav.Link> */}
+           <Nav.Link href="/ordertr_tracking">Order Tracking</Nav.Link> 
           </Nav.Item>
-         
-    
+          
+          <Nav.Item>
+          <Nav.Link href="/signout">signout</Nav.Link>
+          </Nav.Item>
+          
+          
+          
         </Nav>
       );
 }

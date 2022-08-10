@@ -8,6 +8,7 @@ import delivery from "../Image/delivery.webp";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import Nav from "../Nav";
 export default function ADetails(){
 
     const {id} =useParams();
@@ -36,6 +37,7 @@ export default function ADetails(){
            setNid(response.data.nid);
            setAddress(response.data.address);
            setID(response.data.id);
+          
            
         });
         
@@ -55,6 +57,7 @@ export default function ADetails(){
     }
     return(
        <>
+       <Nav />
         {
             loading ?  <PropagateLoader className={Style.spinner} size={50} color='aqua' loading={loading}></PropagateLoader>
             : 
@@ -97,7 +100,7 @@ export default function ADetails(){
             <Form.Label>ADDRESS</Form.Label>
             <Form.Control type="address" value={address} onChange={(e)=>setAddress(e.target.value)} placeholder="Enter Address" />
           </Form.Group>
-          <input type='hidden' value={user.id}></input>
+          
     
           
           <Button variant="primary" onClick={onSubmitted} type="submit">

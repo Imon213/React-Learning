@@ -8,7 +8,7 @@ import Delete from "./Delete";
 import Head from "./Head";
 import Style from "../Component/Style/product.module.css";
 
-const AllProduct = (props) => {
+const Detail_OrderList = (props) => {
     const [products, setProducts] = useState([]);
     const navigate = useNavigate('');
     const { id } = useParams();
@@ -38,8 +38,11 @@ const AllProduct = (props) => {
 
 
     useEffect(() => {
+       
+        console.log("-------------------uuu",id)
+        if(id!==undefined){
         // if (localStorage.getItem('user')){
-        axios.get("http://127.0.0.1:8000/api/products/list")
+        axios.get(`http://127.0.0.1:8000/api/detail_orderlist/${id}`)
             .then(resp => {
                 console.log(resp.data);
                 setProducts(resp.data);
@@ -51,7 +54,7 @@ const AllProduct = (props) => {
         //     alert(" please ,Login ");
         //     //navigate('/login');
         // }
-
+        }
 
     }, []);
 
@@ -78,27 +81,36 @@ const AllProduct = (props) => {
             <Table striped bordered hover size="sm">
     <thead>
         <tr>
-            <th>Name</th>
+           
          
-            <th>Price</th>
+            <th>order_id</th>
+            <th>Product Name</th>
+            <th>order quantity</th>
+       
+            <th>product price per unit </th>
+            <th>contribution at order total price</th>
             <th>status</th>
+
         </tr>
     </thead>
     <tbody>
         {
             products.map(p => (
                 <tr>
-                    <td>{p.p_name}</td>
-                  
+                    <td>{p.order_id}</td>
+                    <td>{p.product_name}</td>
+                    <td>{p.order_qty}</td>
+                
                     <td>{p.p_price}</td>
-                    <td>{p.status}</td>
+                    <td>{p.order_qty_total_price}</td>
+                    <td>{p.product_status}</td>
 
-                    <td><Link to={`/detaill${p.id}`}>Details</Link></td>
-                    {/* <td><Link to={axios.get(`http://127.0.0.1:8000/api/delete_product/${p.id}`)}>Delete</Link></td> */}
-                    {/* <td> <button onClick={axios.get(`http://127.0.0.1:8000/api/delete_product/${p.id}`)}>Delete</button></td> */}
+                    
 
-                    <td><Link to={`/productedit${p.id}`}>Edit</Link></td>
-                    <td> <button onClick={(e) => DeleteSubmit(e, p.id)}>Delete</button></td>
+
+
+
+                 
 
 
                 </tr>
@@ -116,7 +128,7 @@ const AllProduct = (props) => {
 
     )
 }
-export default AllProduct;
+export default Detail_OrderList;
 
 
 

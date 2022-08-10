@@ -29,6 +29,17 @@ import ProductEdit from './Shop/ProductEdit'
 import OrderRequest from './Deliveryman/OrderRequest';
 import RequestedUser from './Deliveryman/RequestedUser';
 import Logout from './Component/Logout';
+import Recieve_order from './Shop/Recieve_order';
+import Detail_OrderList from './Shop/Detail_OrderList';
+
+import OrderTracking from './Shop/OrderTracking';
+import Profile_seller from './Shop/Profile_seller';
+
+import Home from './comp/pages/Home';
+import OrderDetails from './comp/pages/OrderDetails';
+// import ConfirmOrder from '../comp/pages/ConfirmOrder';
+
+
 
 // mithila
 
@@ -62,11 +73,18 @@ function App() {
         <Route exact path='/product' element={<Product />} />
         <Route exact path='/loginn' element={<Loginn/>} />
         <Route exact path='/signout' element={<SignOut/>} />
+        <Route exact path='/recieve_order' element={<Recieve_order/>} />
+        <Route exact path='/detail_orderlist:id' element={<Detail_OrderList/>} />
+        <Route exact path='/profile_seller' element={<Profile_seller/>} />
+        <Route exact path='/ordertr_tracking' element={<OrderTracking/>} />
 
         {/* mithila */}
-        <Route exact path='/order_request' element={<OrderRequest />} />
+        <Route exact path='/order_request' element={<OrderDetails />} />
         <Route exact path='/user_request:id' element={<RequestedUser />} />
         <Route exact path='/logout' element={<Logout />} />
+        <Route exact path='/deliveryman_home' element={ <Home />} />
+        {/* <Route exact path='/confirm_order' element={ <ConfirmOrder />} /> */}
+        
        
       </Routes>
       </Router>

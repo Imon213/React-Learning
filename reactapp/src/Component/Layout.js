@@ -1,23 +1,55 @@
 import Nav from "./Nav";
-import Button from "react-bootstrap/Button";
-import Card from "react-bootstrap/Card";
+import axios from "axios";
+import { useEffect } from "react";
+import { Table } from "react-bootstrap";
+import "react-circular-progressbar/dist/styles.css";
+import ACard from "./Card";
+import Style from "./Style/Layout.module.css";
+import { useState } from "react";
+import Chart from "./Chart";
+import TodaysDeliverymanRequest from "./TodayDeliverymanRequest";
 
 export default function Layout() {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    //if (localStorage.getItem('user')){
+    axios
+      .get(`http://127.0.0.1:8000/api/data`)
+      .then((resp) => {
+        console.log(resp.data);
+        setData(resp.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+ 
+
   return (
-    <div>
+    <>
       <Nav />
-      <Card className="text-center">
-        <Card.Header>Featured</Card.Header>
-        <Card.Body>
-          <Card.Title>Special title treatment</Card.Title>
-          <Card.Text>
-            With supporting text below as a natural lead-in to additional
-            content.
-          </Card.Text>
-          <Button variant="primary">Go somewhere</Button>
-        </Card.Body>
-        <Card.Footer className="text-muted">2 days ago</Card.Footer>
-      </Card>
-    </div>
+      <div className={Style.main}>
+        <ACard title="PRODUCT" data={data.product} total={data.total_product} />
+        <ACard title="BUYER" data={data.buyer} total={data.total_buyer} />
+        <ACard title="SELLER" data={data.seller} total={data.total_seller} />
+        <ACard
+          title="DELIVERYMAN"
+          data={data.deliveryman}
+          total={data.total_deliveryman}
+        />
+      </div>
+      <div className={Style.content}>
+        <div className={Style.pie}>
+          <Chart />
+        </div>
+        <div className={Style.table}>
+          <h4>TODAY'S DELIVERYMAN REQUEST</h4>
+          <br />
+          <TodaysDeliverymanRequest />
+        </div>
+      </div>
+    </>
   );
 }

@@ -8,8 +8,8 @@ import Delete from "./Delete";
 import Head from "./Head";
 import Style from "../Component/Style/product.module.css";
 
-const AllProduct = (props) => {
-    const [products, setProducts] = useState([]);
+const Recieve_orders = (props) => {
+    const [orders, setOrders] = useState([]);
     const navigate = useNavigate('');
     const { id } = useParams();
 
@@ -19,7 +19,26 @@ const AllProduct = (props) => {
     const DeleteSubmit = (e, iddd) => {
         // e.preventDefault();
         console.log("iddddd", iddd)
-        axios.get(`http://127.0.0.1:8000/api/delete_product/${iddd}`).then(response => {
+        axios.get(`http://127.0.0.1:8000/api/delete_order/${iddd}`).then(response => {
+
+
+            // var token = resp.data;
+            console.log("kkkkkkk");
+            // var user = {userId: token.userid, access_token:token.token};
+            // localStorage.setItem('user',JSON.stringify(user));
+            // console.log(localStorage.getItem('user'));
+
+            // navigate('/delete');
+        }).catch(err => {
+            console.log(err);
+        });
+
+
+    }
+    const AcceptedSubmit = (e, iddd) => {
+        // e.preventDefault();
+        console.log("iddddd", iddd)
+        axios.get(`http://127.0.0.1:8000/api/accept_order/${iddd}`).then(response => {
 
 
             // var token = resp.data;
@@ -39,10 +58,10 @@ const AllProduct = (props) => {
 
     useEffect(() => {
         // if (localStorage.getItem('user')){
-        axios.get("http://127.0.0.1:8000/api/products/list")
+        axios.get("http://127.0.0.1:8000/api/orders/list")
             .then(resp => {
                 console.log(resp.data);
-                setProducts(resp.data);
+                setOrders(resp.data);
             }).catch(err => {
                 console.log(err);
             });
@@ -86,18 +105,18 @@ const AllProduct = (props) => {
     </thead>
     <tbody>
         {
-            products.map(p => (
+            orders.map(p => (
                 <tr>
-                    <td>{p.p_name}</td>
+                    <td>{p.id}</td>
                   
-                    <td>{p.p_price}</td>
+                    <td>{p.Price}</td>
                     <td>{p.status}</td>
 
-                    <td><Link to={`/detaill${p.id}`}>Details</Link></td>
+                    <td><Link to={`/detail_orderlist${p.id}`}>Details</Link></td>
                     {/* <td><Link to={axios.get(`http://127.0.0.1:8000/api/delete_product/${p.id}`)}>Delete</Link></td> */}
                     {/* <td> <button onClick={axios.get(`http://127.0.0.1:8000/api/delete_product/${p.id}`)}>Delete</button></td> */}
 
-                    <td><Link to={`/productedit${p.id}`}>Edit</Link></td>
+                    <td><button onClick={(e) => AcceptedSubmit(e, p.id)}>Accept</button></td>
                     <td> <button onClick={(e) => DeleteSubmit(e, p.id)}>Delete</button></td>
 
 
@@ -116,7 +135,7 @@ const AllProduct = (props) => {
 
     )
 }
-export default AllProduct;
+export default Recieve_orders;
 
 
 

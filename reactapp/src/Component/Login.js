@@ -41,7 +41,7 @@ export default function Login(){
        }
        else if(token.type == 'deliveryman')
        {
-        navigate('/order_request');
+        navigate('/deliveryman_home');
        }
      
      }
